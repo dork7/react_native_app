@@ -55,10 +55,10 @@ jobs:
         run: ls -R
 
   release-apk:
-    name: Publish binaries
+    name: Release APK file
     runs-on: ubuntu-latest
-
     steps:
+    - run: ls -R
     - uses: actions/checkout@v2
     - name: Upload binaries to release
       uses: svenstaro/upload-release-action@v2
