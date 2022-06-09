@@ -1,0 +1,57 @@
+name: update
+on: push
+
+jobs:
+  update:
+    name: EAS Update
+    runs-on: ubuntu-latest
+    env:
+      apk_url : ""
+      test : test
+
+    steps:
+      - name: Check for EXPO_TOKEN
+        run: |
+          if [ -z "${{ secrets.EXPO_TOKEN }}" ]; then
+            echo "You must provide an EXPO_TOKEN secret linked to this project's Expo account in this repo's secrets. Learn more: https://docs.expo.dev/eas-update/github-actions"
+            exit 1
+          fi
+
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      # - name: Setup Node
+      #   uses: actions/setup-node@v2
+      #   with:
+      #     node-version: 16.x
+      #     cache: yarn
+
+      - name: Setup Expo
+        uses: expo/expo-github-action@v7
+        with:
+          expo-version: latest
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      # - name: 📦 Install dependencies
+      #   run: yarn install
+
+      - name: Build APK
+        # run: eas build --profile preview --platform android --non-interactive --clear-cache
+        run: eas build:list --json --limit=1 --platform=android |  jq -r .[0].artifacts.buildUrl
+       
+      - run: echo "apk_url=$(eas build:list --json --limit=1 --platform=android |  jq -r .[0].artifacts.buildUrl)" >> $GITHUB_ENV
+      - name: Use the value
+        run: echo "var == > ${{ env.apk_url }}"
+      
+      - name: Download file
+        uses: suisei-cn/actions-download-file@v1
+        id: downloadfile  # Remember to give an ID if you need the output
+        with:
+          url: "Downloading APK from [this](${{ env.apk_url }})!"
+          target: public/
+          auto-match: true
+      - name: LIST DIR
+        run: ls -R
+
+ 
