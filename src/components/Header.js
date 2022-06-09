@@ -23,6 +23,6 @@ const styles = StyleSheet.create({
 });
 
 Header.defaultProps = {
-  title: 'Task List',
+  title: 'Task Listss',
 };
 export default Header;
