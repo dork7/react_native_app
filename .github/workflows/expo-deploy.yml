@@ -58,7 +58,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name : demo-app
-          path: out/
+          path: public/
       
       # download apk as artifact
 
