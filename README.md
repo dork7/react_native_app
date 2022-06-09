@@ -1,3 +1,3 @@
 # react-native-app
 
-some changes in readme to test pullczxc
+some changes in readme
