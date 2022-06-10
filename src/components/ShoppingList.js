@@ -45,8 +45,9 @@ const initState = [
   { id: uuid(), name: 'mango' },
   { id: uuid(), name: 'banana' },
   { id: uuid(), name: 'peach' },
-  { id: uuid(), name: 'amazing fruit' },
   { id: uuid(), name: 'berry' },
+  { id: uuid(), name: 'lemon' },
+  { id: uuid(), name: 'melon' },
 ];
 const ShoppingList = () => {
   const [itemList, setItemList] = useState(initState);
