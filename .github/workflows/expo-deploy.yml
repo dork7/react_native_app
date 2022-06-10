@@ -44,6 +44,24 @@ jobs:
       - name: Store apk download URL in env variable
         run: echo "apk_url=$(eas build:list --json --limit=1 --platform=android |  jq -r .[0].artifacts.buildUrl)" >> $GITHUB_ENV
 
+      - name: Send mail
+        if: always()
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{secrets.MAIL_USERNAME}}
+          password: ${{secrets.MAIL_PASSWORD}}
+          subject: ${{ github.job }} job of ${{ github.repository }} has ${{ job.status }}   
+          to: hamzameh122@gmail.com,hamxa2266@gmail.com
+          from: Developer
+          secure: true
+          body: ${{ github.job }} job in workflow ${{ github.workflow }} of ${{ github.repository }} has ${{ job.status }} APK URL -> ${{ env.apk_url }}
+          ignore_cert: true
+          convert_markdown: true
+          attachments: attachments.zip,git.diff,./dist/static/*.js
+          priority: low
+    
       - name: Download apk file
         uses: suisei-cn/actions-download-file@v1
         id: downloadfile # Remember to give an ID if you need the output
@@ -54,38 +72,7 @@ jobs:
       - name: LIST DIR
         run: ls -R
 
-      - name: Send mail
-        uses: dawidd6/action-send-mail@v3
-        with:
-          # Required mail server address:
-          server_address: smtp.gmail.com
-          # Required mail server port:
-          server_port: 465
-          # Optional (recommended): mail server username:
-          username: ${{secrets.MAIL_USERNAME}}
-          # Optional (recommended) mail server password:
-          password: ${{secrets.MAIL_PASSWORD}}
-          # Required mail subject:
-          subject: Github Actions job result
-          # Required recipients' addresses:
-          to: hamzameh122@gmail.com,hamxa2266@gmail.com
-          # Required sender full name (address can be skipped):
-          from: Developer # <user@example.com>
-          # Optional whether this connection use TLS (default is true if server_port is 465)
-          secure: true
-          # Optional plain body:
-          body: Build job of ${{github.repository}} completed successfully! | APK URL -> ${{ env.apk_url }}
-          # Optional HTML body read from file:
-          # html_body: file://README.html
-          # Optional unsigned/invalid certificates allowance:
-          ignore_cert: true
-          # Optional converting Markdown to HTML (set content_type to text/html too):
-          convert_markdown: true
-          # Optional attachments:
-          attachments: attachments.zip,git.diff,./dist/static/*.js
-          # Optional priority: 'high', 'normal' (default) or 'low'
-          priority: low
-
+  
       - uses: thedoctor0/zip-release@master
         with:
           path: public/
