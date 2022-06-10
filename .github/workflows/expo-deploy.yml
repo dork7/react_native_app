@@ -79,8 +79,8 @@ jobs:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
         with:
           upload_url: ${{ steps.create-new-release.outputs.upload_url }}
-          asset_path: public/
+          asset_path: ./demo-app
           asset_name: app-v${{ github.run_number }}
-          asset_content_type: apk
+          # asset_content_type: apk
       
  
