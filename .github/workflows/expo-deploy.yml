@@ -66,6 +66,7 @@ jobs:
 
       - uses: thedoctor0/zip-release@master
         with:
+          path: public/
           filename: demo-app.zip
 
       - name: Create Release
