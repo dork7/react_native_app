@@ -39,16 +39,17 @@ const ItemInput = ({ addItem }) => {
     </View>
   );
 };
-
+const initState = [
+  { id: uuid(), name: 'orange' },
+  { id: uuid(), name: 'apple' },
+  { id: uuid(), name: 'mango' },
+  { id: uuid(), name: 'banana' },
+  { id: uuid(), name: 'peach' },
+  { id: uuid(), name: 'amazing fruit' },
+  { id: uuid(), name: 'berry' },
+];
 const ShoppingList = () => {
-  const [itemList, setItemList] = useState([
-    { id: uuid(), name: 'orange' },
-    { id: uuid(), name: 'apple' },
-    { id: uuid(), name: 'mango' },
-    { id: uuid(), name: 'banana' },
-    { id: uuid(), name: 'peach' },
-    { id: uuid(), name: 'peach' },
-  ]);
+  const [itemList, setItemList] = useState(initState);
   const [deletedItemList, setDeletedItemList] = useState([]);
   const removeItems = (id) => {
     setDeletedItemList([
@@ -59,14 +60,7 @@ const ShoppingList = () => {
   };
 
   const reset = () => {
-    setItemList([
-      { id: uuid(), name: 'orange' },
-      { id: uuid(), name: 'apple' },
-      { id: uuid(), name: 'mango' },
-      { id: uuid(), name: 'banana' },
-      { id: uuid(), name: 'peach' },
-      { id: uuid(), name: 'peach' },
-    ]);
+    setItemList(initState);
     setDeletedItemList([]);
   };
 
