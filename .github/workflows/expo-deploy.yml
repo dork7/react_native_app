@@ -20,11 +20,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      # - name: Setup Node
-      #   uses: actions/setup-node@v2
-      #   with:
-      #     node-version: 16.x
-      #     cache: yarn
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16.x
+          cache: yarn
 
       - name: Setup Expo
         uses: expo/expo-github-action@v7
@@ -33,12 +33,12 @@ jobs:
           eas-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
 
-      # - name: 📦 Install dependencies
-      #   run: yarn install
+      - name: 📦 Install dependencies
+        run: yarn install
 
       - name: Build APK
         run: eas build --profile preview --platform android --non-interactive --clear-cache
-        
+
       - name: GET APK URL from EXPO  
         run: eas build:list --json --limit=1 --platform=android |  jq -r .[0].artifacts.buildUrl
 
@@ -62,6 +62,9 @@ jobs:
           name: demo-app
           path: public/
 
+      - name: LIST DIR
+        run: ls -R
+
       - uses: actions/download-artifact@v3
         with:
           name: demo-app
@@ -69,6 +72,9 @@ jobs:
       - uses: thedoctor0/zip-release@master
         with:
           filename: demo-app.zip
+
+      - name: LIST DIR
+        run: ls -R
           
       - name: Create Release
         id: create-new-release
@@ -79,6 +85,9 @@ jobs:
           tag_name: v${{ github.run_number }}
           release_name: Release v${{ github.run_number }}
       
+      - name: LIST DIR
+        run: ls -R
+
       - name: Upload asset to Github release
         uses: actions/upload-release-asset@v1
         env:
