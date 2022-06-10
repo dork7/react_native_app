@@ -57,7 +57,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
-          name: demo-app.apk
+          name: demo-app
           path: public/
 
       - uses: actions/download-artifact@v3
