@@ -1,4 +1,4 @@
-name: Build and release expo app
+name: Send Mail
 on:
   push:
     branches:
