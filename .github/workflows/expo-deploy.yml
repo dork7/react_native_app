@@ -64,7 +64,7 @@ jobs:
         with:
           name: demo-app
 
-      - uses: thedoctor0/zip-release/master
+      - uses: thedoctor0/zip-release@master
         with:
           filename: demo-app.zip
           
