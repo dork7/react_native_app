@@ -12,6 +12,7 @@ import {
   TouchableOpacity,
   Button,
   TextInput,
+  ScrollView,
 } from 'react-native';
 const ListItem = ({ item, removeItems }) => {
   const itemPressed = (item) => {
@@ -67,27 +68,29 @@ const ShoppingList = () => {
 
   return (
     <View style={{ justifyContent: 'space-between' }}>
-      <FlatList
-        data={itemList}
-        renderItem={({ item }) => <ListItem {...{ item, removeItems }} />}
-      />
+      <ScrollView>
+        <FlatList
+          data={itemList}
+          renderItem={({ item }) => <ListItem {...{ item, removeItems }} />}
+        />
 
-      <TouchableOpacity
-        style={{
-          height: 50,
-          marginTop: 10,
-          backgroundColor: '#22255a',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-        onPress={reset}
-      >
-        <Text style={{ color: '#FFF' }}>RESET</Text>
-      </TouchableOpacity>
-      <FlatList
-        data={deletedItemList}
-        renderItem={({ item }) => <ListItem {...{ item, removeItems }} />}
-      />
+        <TouchableOpacity
+          style={{
+            height: 50,
+            marginTop: 10,
+            backgroundColor: '#22255a',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+          onPress={reset}
+        >
+          <Text style={{ color: '#FFF' }}>RESET</Text>
+        </TouchableOpacity>
+        <FlatList
+          data={deletedItemList}
+          renderItem={({ item }) => <ListItem {...{ item, removeItems }} />}
+        />
+      </ScrollView>
     </View>
   );
 };
