@@ -81,6 +81,6 @@ jobs:
           upload_url: ${{ steps.create-new-release.outputs.upload_url }}
           asset_path: ./demo-app
           asset_name: app-v${{ github.run_number }}
-          # asset_content_type: apk
+          asset_content_type: application/zip
       
  
