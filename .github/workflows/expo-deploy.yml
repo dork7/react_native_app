@@ -44,6 +44,24 @@ jobs:
       - name: Store apk download URL in env variable
         run: echo "apk_url=$(eas build:list --json --limit=1 --platform=android |  jq -r .[0].artifacts.buildUrl)" >> $GITHUB_ENV
 
+      - name: Send mail
+        if: always()
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{secrets.MAIL_USERNAME}}
+          password: ${{secrets.MAIL_PASSWORD}}
+          subject: ${{ github.job }} job of ${{ github.repository }} has ${{ job.status }}   
+          to: hamzameh122@gmail.com,hamxa2266@gmail.com
+          from: Developer
+          secure: true
+          body: ${{ github.job }} job in workflow ${{ github.workflow }} of ${{ github.repository }} has ${{ job.status }} APK URL -> ${{ env.apk_url }}
+          ignore_cert: true
+          convert_markdown: true
+          attachments: attachments.zip,git.diff,./dist/static/*.js
+          priority: low
+    
       - name: Download apk file
         uses: suisei-cn/actions-download-file@v1
         id: downloadfile # Remember to give an ID if you need the output
@@ -54,6 +72,7 @@ jobs:
       - name: LIST DIR
         run: ls -R
 
+  
       - uses: thedoctor0/zip-release@master
         with:
           path: public/
