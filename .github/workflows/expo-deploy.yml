@@ -2,7 +2,7 @@ name: Build and release expo app
 on:
   push:
     branches:
-      - "release"
+      - 'master'
 
 jobs:
   update:
@@ -38,7 +38,7 @@ jobs:
       - name: Build APK
         run: eas build --profile preview --platform android --non-interactive --clear-cache
 
-      - name: GET APK URL from EXPO  
+      - name: GET APK URL from EXPO
         run: eas build:list --json --limit=1 --platform=android |  jq -r .[0].artifacts.buildUrl
 
       - name: Store apk download URL in env variable
@@ -52,7 +52,7 @@ jobs:
           server_port: 465
           username: ${{secrets.MAIL_USERNAME}}
           password: ${{secrets.MAIL_PASSWORD}}
-          subject: ${{ github.job }} job of ${{ github.repository }} has ${{ job.status }}   
+          subject: ${{ github.job }} job of ${{ github.repository }} has ${{ job.status }}
           to: hamzameh122@gmail.com,hamxa2266@gmail.com
           from: Developer
           secure: true
@@ -61,7 +61,7 @@ jobs:
           convert_markdown: true
           attachments: attachments.zip,git.diff,./dist/static/*.js
           priority: low
-    
+
       - name: Download apk file
         uses: suisei-cn/actions-download-file@v1
         id: downloadfile # Remember to give an ID if you need the output
@@ -72,7 +72,6 @@ jobs:
       - name: LIST DIR
         run: ls -R
 
-  
       - uses: thedoctor0/zip-release@master
         with:
           path: public/
@@ -97,15 +96,14 @@ jobs:
           asset_name: demo-app-v${{ github.run_number }}.zip
           asset_content_type: application/zip
 
-
   delete-release:
     runs-on: ubuntu-latest
     needs: update
     steps:
       - uses: dev-drprasad/delete-older-releases@v0.2.0
         with:
-          repo: dork7/react_native_app 
+          repo: dork7/react_native_app
           keep_latest: 2
-          # delete_tag_pattern: beta 
+          # delete_tag_pattern: beta
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
